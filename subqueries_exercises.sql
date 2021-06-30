@@ -53,12 +53,14 @@ SELECT first_name, last_name, gender
 
 ##5. Find all the employees who currently have a higher salary than the companies overall, historical average salary.
 
-SELECT *
+SELECT emp_no, first_name, last_name
   FROM employees
-    WHERE emp_no IN (
-    SELECT emp_no
-      FROM salaries 
-          ) 
+    WHERE emp_no IN 
+      (SELECT emp_no 
+        FROM salaries
+        WHERE salary > 
+      	(SELECT AVG(salary)
+            FROM employees));
             
 
 
