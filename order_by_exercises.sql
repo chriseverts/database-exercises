@@ -23,7 +23,7 @@ FROM `employees`
 
 Select *
 FROM `employees`
-	Where first_name IN ('Irena','Vidya') or ('Maya') 
+	Where first_name IN ('Irena','Vidya','Maya') 
 		ORDER BY last_name, first_name;
 ## Irena Acton, Vidya Zweizig		
 
@@ -44,7 +44,7 @@ FROM `employees`
 Select *
 FROM `employees`
 	Where last_name LIKE ('E%') and last_name like ('%E')
-		ORDER BY hire_date ASC;
+		ORDER BY hire_date desc;
 ## 899, Teiji Eldridhe, Sergi Erde, 
 
 
@@ -53,7 +53,7 @@ FROM `employees`
 Select *
 From `employees`
 Where birth_date like ('%-12-25') and hire_date between '1990-1-1' and '1999-12-31'
-	ORDER BY birth_date, hire_date ASC;
+	ORDER BY birth_date, hire_date desc;
 ## 362, Tremaine Eugenio, Gudjon Vakili
 
 
