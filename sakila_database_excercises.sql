@@ -67,3 +67,17 @@ FROM staff INNER JOIN payment ON
 staff.staff_id = payment.staff_id AND payment_date LIKE '2005-08%';
 
 
+
+SELECT t.title AS Title, 
+       COUNT(t.title) AS Count
+FROM titles AS t
+JOIN dept_emp AS de ON de.emp_no = t.emp_no 
+    AND de.to_date > CURDATE() 
+    AND t.to_date > CURDATE()
+JOIN departments AS d ON d.dept_no = de.dept_no 
+    AND d.dept_name = 'Customer Service'
+GROUP BY t.title;
+
+
+
+
