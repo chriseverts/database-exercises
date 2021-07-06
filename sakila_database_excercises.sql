@@ -1,5 +1,21 @@
 
 
+
+## 1. How much do the current managers of each department get paid, relative to the average salary for the department? Is there any department where the department manager gets paid less than the average salary?
+
+
+SELECT d.dept_name, CONCAT(employees.first_name, ' ', employees.last_name) 
+AS employee_name, s.salary, AVG(s.salary) AS avg_department_salary
+FROM employees
+JOIN salaries s ON employees.emp_no = s.emp_no
+JOIN dept_manager ON s.emp_no = dept_manager.emp_no
+JOIN departments d ON d.dept_no = dept_manager.dept_no
+WHERE s.to_date > NOW() AND dept_manager.to_date > NOW()
+ORDER BY dept_name;
+
+
+
+
 ##1. Display the first and last names in all lowercase of all the actors. 
 SELECT lower(first_name) AS first_name, lower(last_name) AS last_name
   FROM actor;   
@@ -67,17 +83,63 @@ FROM staff INNER JOIN payment ON
 staff.staff_id = payment.staff_id AND payment_date LIKE '2005-08%';
 
 
+##11 List each film and the number of actors who are listed for that film.
 
-SELECT t.title AS Title, 
-       COUNT(t.title) AS Count
-FROM titles AS t
-JOIN dept_emp AS de ON de.emp_no = t.emp_no 
-    AND de.to_date > CURDATE() 
-    AND t.to_date > CURDATE()
-JOIN departments AS d ON d.dept_no = de.dept_no 
-    AND d.dept_name = 'Customer Service'
-GROUP BY t.title;
+SELECT film.title, count(*) number_of_actors
+  FROM film
+JOIN film_actor ON film.film_id = film_actor.film_id
+GROUP BY film.title
+ORDER BY number_of_actors DESC;
 
+
+
+##12 How many copies of the film Hunchback Impossible exist in the inventory system?
+
+SELECT film.title, count(*) number_of_copies
+  FROM film
+JOIN inventory ON film.film_id = inventory.film_id
+WHERE film.title = 'Hunchback Impossible';
+
+## 13 The music of Queen and Kris Kristofferson have seen an unlikely resurgence. As an unintended consequence, films starting with the letters K and Q have also soared in popularity. Use subqueries to display the titles of movies starting with the letters K and Q whose language is English.
+
+select title
+from film 
+where (title like 'K%' or title like 'Q%')
+and language_id in (
+	select language_id 
+	from language 
+	where name = 'English'
+)
+order by title;
+
+
+
+##14 Use subqueries to display all actors who appear in the film Alone Trip.
+
+SELECT first_name, last_name 
+FROM actor
+WHERE actor_id IN (
+	SELECT actor_id
+	FROM film_actor
+	WHERE film_id IN (
+		SELECT film_id FROM film WHERE title = 'Alone Trip'
+	)
+);
+
+
+##15. You want to run an email marketing campaign in Canada, for which you will need the names and email addresses of all Canadian customers.
+
+
+SELECT customer.first_name, customer.last_name, customer.email
+FROM customer
+JOIN address ON customer.address_id = address.address_id
+JOIN city ON address.city_id = city.city_id
+JOIN country ON city.country_id = country.country_id
+WHERE country.country = 'Canada';
+
+
+
+## 16. Sales have been lagging among young families, and you wish to target all family movies for a promotion. Identify all movies categorized as famiy films.
 
 
 
