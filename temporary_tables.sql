@@ -91,3 +91,34 @@ CREATE TEMPORARY TABLE current AS (
 SELECT * 
 FROM current;
 
+
+ALTER TABLE current ADD historic FLOAT(10,2);
+
+SELECT * 
+FROM current;
+
+
+ALTER TABLE current ADD historic_std FLOAT(10,2);
+
+SELECT * 
+FROM current;
+
+ALTER TABLE current ADD zscore FLOAT(10,2);
+
+SELECT * 
+FROM current;
+
+
+UPDATE current SET historic = (SELECT avg_salary FROM historic);
+
+SELECT * 
+FROM current;
+
+
+
+
+
+
+
+
+
